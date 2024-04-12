@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import argparse
 import numpy as np
@@ -375,7 +376,7 @@ if __name__ == '__main__':
     frame_num = data.shape[0]
 
 
-
+    os.makedirs("OutputBvhs/",exist_ok=True)
     ## 2. Rest Pose
     with open(filename, "w") as f:
         f.write("HIERARCHY\n")
@@ -391,7 +392,7 @@ if __name__ == '__main__':
         f.write(f"Frame Time:\t{1. / fps:.6f}\n")
 
         print('hierarchy done')
-        exit(0)
+        # exit(0)
 
         # 3. Pose for each frame
         for i in tqdm(range(frame_num)):

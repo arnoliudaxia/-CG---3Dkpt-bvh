@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "RawKpt转bvh",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "load_mocap_mouse_npy_onlychange_parallel.py",
+            "console": "integratedTerminal",
+            "args": ["-u","/mnt/Data-Mouse/batch/20231121/231121_C3M1-2/tri_new.npy"]
+        },
+        {
             "name": "Python: 当前文件",
             "type": "python",
             "request": "launch",
