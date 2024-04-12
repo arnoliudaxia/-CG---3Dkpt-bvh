@@ -205,7 +205,7 @@ def pose2euler(pose, jointName, quats, eulers):
     elif jointName == 'Snout':
         x_dir = pose[getIndexOfJointInNpy('EarR')] - pose[getIndexOfJointInNpy('EarL')]
         y_dir = pose[getIndexOfJointInNpy("SpineF")] - pose[thisJointIndex]
-        y_dir=-y_dir
+        # y_dir=-y_dir
         z_dir = None
         order = 'xzy'
     elif jointName == 'EarL':
@@ -274,11 +274,50 @@ def pose2euler(pose, jointName, quats, eulers):
     elif jointName == 'AnkleR':
         x_dir =  pose[getIndexOfJointInNpy('AnkleL')] - pose[getIndexOfJointInNpy('AnkleR')]
         y_dir = None
-        z_dir = pose[getIndexOfJointInNpy('AnkleR')] - pose[getIndexOfJointInNpy('KneeR')]
+        z_dir = pose[getIndexOfJointInNpy('SpineF')] - pose[thisJointIndex]
         # z_dir=-z_dir
         # x_dir=-x_dir
-
         order = 'zyx'
+
+    ###############处理末端节点###############
+
+    elif jointName=="HindpawL" or jointName=="HindpawR":
+        x_dir =  pose[getIndexOfJointInNpy('HindpawR')] - pose[getIndexOfJointInNpy('HindpawL')]
+        y_dir = pose[getIndexOfJointInNpy('SpineF')] - pose[getIndexOfJointInNpy('Snout')]
+        z_dir = None
+        order = 'xzy'
+
+    elif jointName == 'Snout':
+        x_dir =  pose[getIndexOfJointInNpy('EarR')] - pose[getIndexOfJointInNpy('EarL')]
+        y_dir = pose[getIndexOfJointInNpy('SpineF')] - pose[getIndexOfJointInNpy('Snout')]
+        z_dir = None
+        order = 'xzy'
+    
+    elif jointName == 'EarL' or jointName == 'EarR':
+        x_dir =  pose[getIndexOfJointInNpy('EarR')] - pose[getIndexOfJointInNpy('EarL')]
+        y_dir = pose[getIndexOfJointInNpy('SpineF')] - pose[getIndexOfJointInNpy('Snout')]
+        z_dir = None
+        order = 'xzy'
+
+        # x_dir =  pose[getIndexOfJointInNpy('EarR')] - pose[getIndexOfJointInNpy('EarL')]
+        # # y_dir = pose[getIndexOfJointInNpy('SpineF')] - pose[getIndexOfJointInNpy('Snout')]
+        # y_dir = None
+        # z_dir = pose[getIndexOfJointInNpy('SpineF')] - pose[getIndexOfJointInNpy('Snout')]
+        # # order = 'xzy'
+        # order = 'zyx'
+    elif jointName == 'ForepawL' or jointName == 'ForepawR':
+        x_dir =  pose[getIndexOfJointInNpy('ForepawR')] - pose[getIndexOfJointInNpy('ForepawL')]
+        y_dir = pose[getIndexOfJointInNpy('SpineG')] - pose[getIndexOfJointInNpy('SpineF')]
+        z_dir = None
+        order = 'xzy'
+        
+    elif jointName == 'Tail(end)':
+        x_dir = None
+        y_dir = pose[getIndexOfJointInNpy('Tail(mid)')]-pose[thisJointIndex]
+        y_dir=-y_dir
+        z_dir = np.cross(pose[getIndexOfJointInNpy('KneeR')] - pose[getIndexOfJointInNpy('KneeL')], y_dir)
+        order = 'zxy'
+    
 
 
     if order:
@@ -395,7 +434,7 @@ if __name__ == '__main__':
         # exit(0)
 
         # 3. Pose for each frame
-        for i in tqdm(range(frame_num)):
-        # for i in tqdm(range(100)):
+        # for i in tqdm(range(frame_num)):
+        for i in tqdm(range(50)):
             channel, _, _ = pose2euler(data[i], root_id, {}, {})
             f.write(' '.join([f'{element}' for element in channel]) + '\n')
