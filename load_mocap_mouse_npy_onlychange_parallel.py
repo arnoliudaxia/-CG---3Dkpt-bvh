@@ -331,19 +331,20 @@ def write_joint(f, jointName:str, offset):
         father_pos = data[0][fatherJoint["dataindex"]]
 
     pos = np.linalg.norm(pos - father_pos) * dir2vec(thisJoint["dir"]) * 100
-    print(pos)
-    # pos = np.linalg.norm(pos - father_pos) * dir2vec(thisJoint["dir"]) * 20
-    # pos = np.linalg.norm(pos - father_pos) * dir2vec(thisJoint["dir"])
     # pos = pos - father_pos
-    f.write(offset + f"\tOFFSET {pos[0]:.5f} {pos[1]:.5f} {pos[2]:.5f}\n")
+    if len(thisJoint["children"])==0:
+        f.write(offset + "\tOFFSET 0.00 0.00 0.00\n")
+    else:
+        f.write(offset + f"\tOFFSET {pos[0]:.5f} {pos[1]:.5f} {pos[2]:.5f}\n")
+
     f.write(offset + "\tCHANNELS 3 Zrotation Xrotation Yrotation\n")
-    # if len(thisJoint.children) > 0:
     for n in thisJoint["children"]:
         write_joint(f, n, offset + "\t")
     else:
         f.write(offset + "\tEnd Site\n")
         f.write(offset + "\t{\n")
-        f.write(offset + "\t\tOFFSET 0.00 0.00 0.00\n")
+        f.write(offset + f"\t\tOFFSET {pos[0]:.5f} {pos[1]:.5f} {pos[2]:.5f}\n")
+        # f.write(offset + "\t\tOFFSET 0.00 0.00 0.00\n")
         f.write(offset + "\t}\n")
     f.write(offset + "}\n")
 
