@@ -63,7 +63,7 @@ JointStructure = {
     "HindpawL": {
         'parent': "AnkleL",
         'children': [],
-        "dir": "-z",
+        "dir": "z",
     },
     "HindpawR": {
         'parent': "AnkleR",
@@ -78,12 +78,12 @@ JointStructure = {
     "EarL": {
         'parent': "SpineF",
         'children': [],
-        "dir": "z",
+        "dir": "-z",
     },
     "EarR": {
         'parent': "SpineF",
         'children': [],
-        "dir": "-x",
+        "dir": "-z",
     },
     "ShoulderL": {
         'parent': "SpineF",
