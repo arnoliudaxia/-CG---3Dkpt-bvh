@@ -334,18 +334,19 @@ def write_joint(f, jointName:str, offset):
     # pos = pos - father_pos
     if len(thisJoint["children"])==0:
         f.write(offset + "\tOFFSET 0.00 0.00 0.00\n")
-    else:
-        f.write(offset + f"\tOFFSET {pos[0]:.5f} {pos[1]:.5f} {pos[2]:.5f}\n")
-
-    f.write(offset + "\tCHANNELS 3 Zrotation Xrotation Yrotation\n")
-    for n in thisJoint["children"]:
-        write_joint(f, n, offset + "\t")
-    else:
+        f.write(offset + "\tCHANNELS 3 Zrotation Xrotation Yrotation\n")
         f.write(offset + "\tEnd Site\n")
         f.write(offset + "\t{\n")
         f.write(offset + f"\t\tOFFSET {pos[0]:.5f} {pos[1]:.5f} {pos[2]:.5f}\n")
-        # f.write(offset + "\t\tOFFSET 0.00 0.00 0.00\n")
         f.write(offset + "\t}\n")
+    else:
+        f.write(offset + f"\tOFFSET {pos[0]:.5f} {pos[1]:.5f} {pos[2]:.5f}\n")
+        f.write(offset + "\tCHANNELS 3 Zrotation Xrotation Yrotation\n")
+
+        for n in thisJoint["children"]:
+            write_joint(f, n, offset + "\t")
+
+
     f.write(offset + "}\n")
 
 
