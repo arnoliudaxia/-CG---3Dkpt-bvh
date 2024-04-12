@@ -1,0 +1,8 @@
+
+__pycache__/
+
+OutputBvhs/
+
+venv/
+
+*.mp4
